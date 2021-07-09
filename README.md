@@ -22,7 +22,7 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 * `./market help()`
   * Description: Displays the function signatures of the available Market functions for usage. When provided the name of a function as an argument display the function's description.
 	* Arguments:   
-		*	`<Market function name>`: optional argument, a string representing the name of a Market function.
+		*	`<Market function name>`: optional argument, a string representing the name of a Market function to get more data on.
 
 * `./market new_index(<index_name>)`
 	* Description: Provided an index name, the Market Bot will prompt you for valid tickers. Hit `:w` when complete.
