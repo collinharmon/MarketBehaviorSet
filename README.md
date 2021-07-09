@@ -69,7 +69,7 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 		*	`minute`:      int representing the minute(s) of the hour the cron job is to be ran on (0-59).
 
 * `./market new_se_script(<script_name>)`
-	* Description: Market Bot will prompt the Discord user for valid `./market` commands until the user enters :w. Then saves the .se file under the name provided as an argument.
+	* Description: Market Bot will prompt the Discord user for valid `./market` commands until the user enters `:w`. Then saves the .se file under the name provided as an argument.
 	* Arguments:   
 		*	`script_name`: String representing the desired name of the new custom .se script to be created.
 
