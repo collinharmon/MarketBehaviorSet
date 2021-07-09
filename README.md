@@ -6,7 +6,7 @@ A Stock Market BehaviorSet (Discord Bot) to be ran by the [DiscordBotRunner](htt
 
 A Discord Stock Market API to facilitate technical analysis, promote social discussion, and to provide Discord users the ability to utilize Market API functionality through Discord.
 
-The initial motive for this project was to allow my friends in our Discord Guild to be able to make custom indexes composed of their favorite stocks which can then be shared with other Discord users. That way if an individual seeks new stocks to purchase, he or she can look at what their friends are holding and then obtain stock data and charts on those stocks for technical analysis. 
+The initial motive for this project was to allow my friends in our Discord Guild to be able to make custom indexes composed of their favorite stocks which can then be shared with other Discord users. That way if an individual seeks new stocks to purchase, he or she can look at what their friends are holding and then obtain stock data and charts for technical analysis. 
 
 This idea lead to the development of a full-fledged Discord Stock Market API wherein each Discord user can utilize the Market API's full functionality through Discord Channels. This functionality ranges from querying Real-Time Stock Market Data (through Alpaca API), requesting charts/graphs on Market Data (with help from `matplotlib`), creation of custom indexes/portfolios, writing and uploading custom Python/Stock Market Scripts (which becomes accessible to every Discord user to run), scheduling cron jobs etc. 
 
