@@ -14,6 +14,11 @@ I truly wanted to provide each Discord user the ability to make full use of the 
 
 ## Notes
 
+Custom scripts are implemented through the MarketScript Abstract Class defined in `market_script.py` (see examples under `market_scripts/`). MarketScript extends the Thread class meaning each time a script is invoked it will be spawned as a new thread. The constructor of this class expects a thread ID, thread name, thread queue, and an instance of the MarketApi. The queue object provided to the constructor represents the parent queue (MarketBehaviorSet instance) for the child thread to push data to be relayed back to the channel from which the script was invoked. The MarketBehaviorSet expects the data pushed onto its queue to be in JSON format. The "schema" which defines the JSON data passed from child threads to parent is as follows (An actual JSON schema to validate the messages TBD):
+
+*	text_message: `{"thread_id":<int thread id for sending MarketScript>, "data_type":"text_message", "data":"<Any sort of text data goes here>"}`
+*	file_path:    `{"thread_id":<int thread id for sending MarketScript>, "data_type":"file_path",    "file_path":"<path of file to be uploaded>"}`
+*	text/upload:  `{"thread_id":<int thread id for sending MarketScript>, "data_type":"text/upload",  "data":"<Any sort of text data goes here>", "file_path":"<path of file to be uploaded>"}`
 
 ## Market Commands
 
