@@ -20,6 +20,13 @@ Custom scripts are implemented through the MarketScript Abstract Class defined i
 *	file_path:    `{"thread_id":<int thread id for sending MarketScript>, "data_type":"file_path",    "file_path":"<path of file to be uploaded>"}`
 *	text/upload:  `{"thread_id":<int thread id for sending MarketScript>, "data_type":"text/upload",  "data":"<Any sort of text data goes here>", "file_path":"<path of file to be uploaded>"}`
 
+## Configuration
+
+Two .ini files are required for the MarketBehaviorSet and MarketApi to function: alpaca_api_keys.ini and db_keys.ini. MarketBehaviorSet will look in the directory it resides in for the two .ini files.
+`alpaca_api_keys.ini` will contain the base url for querying stock data, and two user API keys for accessing and verifying valid user.
+`db_keys.ini` contain the MySQL configuration values for establishing a connection to the custom Database.
+(.ini files are provided, however, the keys have been removed)
+
 ## Market Commands
 
 Market commands begin with `./market` and can be executed by user/channel pairs which are registered on the MarketBehaviorSet (see [DiscordBotRunner Admin Command `./admin register`](https://github.com/collinharmon/DiscordBotRunner#admin-commands)).

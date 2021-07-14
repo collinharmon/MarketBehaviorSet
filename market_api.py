@@ -595,7 +595,7 @@ class MarketApi:
     Description - init function for reading the .ini containing AlpacaAPI connection information.
     """
     config = configparser.ConfigParser()
-    config.read("./discord_bot_runner/keys/alpaca_api_keys.ini")
+    config.read( (os.path.dirname(os.path.realpath(__file__))) + "//alpaca_api_keys.ini" )
     os.environ["APCA_API_BASE_URL"] = config['api_keys']['base_url'] 
     os.environ["APCA_API_KEY_ID"] = config['api_keys']['api_key']
     os.environ["APCA_API_SECRET_KEY"] = config['api_keys']['secret_key']
@@ -609,7 +609,7 @@ class MarketApi:
     def __init__(self):
       super().__init__()
       config = configparser.ConfigParser()
-      config.read("./discord_bot_runner/keys/db_keys.ini")
+      config.read((os.path.dirname(os.path.realpath(__file__))) + "//db_keys.ini")
       self.mysql_cnx = mysql.connector.connect(
                           host = config['db_keys']['host'],
                           user = config['db_keys']['user'],
@@ -687,7 +687,6 @@ class MarketApi:
         try:
           cursor.execute(MYSQL_CREATE_PORTFOLIO, (name, str(user_id),))
         except Exception as e:
-          print("we here12243346")
           print(str(e))
           cursor.close()
           return -1
@@ -779,7 +778,6 @@ class MarketApi:
       cursor.close()
 
       if len(tickers) == 0:
-        #raise ValueError("No tickers found for index: %s" % name)
         print("No tickers found for index: %s" % name)
         return None
       else:
@@ -796,7 +794,6 @@ class MarketApi:
       """
       cursor = self.mysql_cnx.cursor()
 
-      #need to validate stock here
       try:
         cursor.execute(MYSQL_SELECT_STOCK, (ticker, str(portfolio_id),))
       except mysql.connector.IntegrityError as er:
@@ -840,10 +837,8 @@ def plot_stock(return_dict, x, y, plot_name, positive, save_path):
   row_count = len(x)
   col_count = len(y)
   if row_count != col_count:
-    matplotlib_queue.put(None)
+    print("Error, mismatch in number of columns and rows")
     return
-  #fig, ax = plt.subplots( nrows=row_count, ncols=col_count )
-  #print("i think we just made a skeleton plot. now we're about to plot for real")
   color = None
   fig = plt.figure()
   if positive:
