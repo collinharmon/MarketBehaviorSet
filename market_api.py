@@ -42,6 +42,9 @@ MAXIMUM_TICKER_LENGTH = 5
 
 
 class MarketApi:
+  """
+  A custom Stock Market API for the MarketBehaviorSet
+  """
   def __init__(self):
     super().__init__()
     self.set_env_vars()
@@ -187,7 +190,8 @@ class MarketApi:
       raise ValueError("Format %s, invalid format on line %d. Be sure lines don't end with a comma. For:" % (format, line_number))
 
     token_ticker = tokens[0].strip()
-    if self.validate_ticker(token_ticker) is None:
+    token_ticker = self.validate_ticker(token_ticker)
+    if token_ticker is None:
       raise ValueError("Ticker string, %s on line %d is invalid for:" % (token_ticker, line_number))
 
     if format == TICKERS_ONLY:
@@ -234,6 +238,8 @@ class MarketApi:
       raise ValueError("MarketApi: There was a problem with the provided end_time. \n%s" % str(ve))
 
     barsets = self.get_barsets(tickers, datetime_start_time, datetime_end_time)
+    if barsets is None:
+      raise ValueError("Error Alpaca API was unable to retrieve barset data for the constituent stocks.")
     tickers_return_dict = {}
     for ticker in tickers:
       if ticker not in barsets or len(barsets[ticker]) < 2:
@@ -269,6 +275,8 @@ class MarketApi:
     datetime_end_time = self.validate_timestamp(end_time)
 
     barsets = self.get_barsets(constituent_tickers, datetime_start_time, datetime_end_time)
+    if barsets is None:
+      raise ValueError("Error Alpaca API was unable to retrieve barset data for the constituent stocks.")
     (index_return_plots, plot_dates) = self.get_return_plots(constituent_tickers, barsets)
 
     positive = False
@@ -354,7 +362,8 @@ class MarketApi:
             temp_set = self.alpaca_api.get_barset(ticker, timeframe=timeframe, limit=1000, start=start, end=end)
           if len(temp_set[ticker]) > 0:
             ticker_barsets.extend(temp_set[ticker])
-          barsets[ticker] = ticker_barsets
+          if len(ticker_barsets) > 0 and ticker_barsets is not None:
+            barsets[ticker] = ticker_barsets
     elif requests_to_fulfill * len(tickers) > 1:
       """
       If the amount of barsets for all of the requested tickers exceeds 1,000, but the amount of barsets for each ticker's request 
@@ -365,7 +374,8 @@ class MarketApi:
       for ticker in tickers:
         with self.mutex:
           barset = self.alpaca_api.get_barset(ticker, timeframe=timeframe, limit=1000, start=start_time_iso, end=end_time_iso)
-        barsets[ticker] = barset[ticker]
+        if len(barset[ticker]) > 0 and barset[ticker] is not None: 
+          barsets[ticker] = barset[ticker]
     else:
       """
       All the barsets needed for all the provided tickers can be obtained in a single AlpacaAPI request.
@@ -375,7 +385,17 @@ class MarketApi:
       with self.mutex:
         barsets = self.alpaca_api.get_barset(tickers, timeframe=timeframe, limit=1000, start=start_time_iso, end=end_time_iso)
 
-    return barsets
+    #below code is for removing the tickers from the barsets that AlpacaApi was unable to retrieve data for. 
+    final_barsets = {}
+    for k, v in barsets.items():
+      if len(v) > 0:
+        final_barsets[k] = v
+      else:
+        print("AlpacaAPI was unable to retrieve barset data for ticker %s. Skipping . . ." % k)
+    if len(final_barsets) > 0:
+      return final_barsets
+    else:
+      return None
 
   def get_return_plots(self, tickers, barsets):
     """
@@ -398,7 +418,7 @@ class MarketApi:
       """
       Determine the ticker which has the largest set of bars, and in turn the greatest timeframe.
       """
-      if len(barsets[ticker]) > largest_set:
+      if ticker in barsets and len(barsets[ticker]) > largest_set:
         largest_set = len(barsets[ticker])
         largest_set_ticker = ticker
 
@@ -414,6 +434,8 @@ class MarketApi:
       """
       For each ticker obtain its return at each time interval (y) with respect to its initial opening value from its earliest bar.
       """
+      if ticker not in barsets:
+        continue
       barset = barsets[ticker]
       return_plots = []
       return_plots.append(1) #initialize base
@@ -671,7 +693,6 @@ class MarketApi:
           return -1
         else:
           portfolio_id = cursor.lastrowid
-          print("da portfolio id on the last insert: %d" % portfolio_id)
           self.mysql_cnx.commit()
           cursor.close()
       else:
