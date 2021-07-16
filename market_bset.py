@@ -916,13 +916,15 @@ class MarketBehaviorSet(BehaviorSet):
         return json_obj
       else:
         ticker_entries.insert(0,"ticker")
-        if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__), '\\market_scripts'))):
-          os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__), '\\market_scripts')))
-        if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__), '\\market_scripts\\uploads'))):
-          os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__), '\\market_scripts\\uploads')))
+        market_scripts_path = os.path.join(os.path.realpath(__file__), "market_scripts")
+        if not os.path.exists(os.path.dirname(market_scripts_path)):
+          os.makedirs(os.path.dirname(market_scripts_path))
+
+        uploads_path = os.path.join(market_scripts_path, "uploads")
+        if not os.path.exists(os.path.dirname(uploads_path)):
+          os.makedirs(os.path.dirname(uploads_path))
         
-        base_path = os.path.dirname(os.path.join(os.path.realpath(__file__), "\\market_scripts\\uploads"))
-        full_path = os.path.join(base_path, index_name.replace(" ","_"))
+        full_path = os.path.join(uploads_path, index_name.replace(" ","_"))
         full_path = full_path + ".csv"
         file = open(full_path, "w")
         file.write('\n'.join(ticker_entries))
