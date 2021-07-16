@@ -248,7 +248,7 @@ class MarketBehaviorSet(BehaviorSet):
             json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", str(ve))
           else:
             if tickers:
-              data_upload_path = os.path.dirname(os.path.realpath(__file__)) + "\\market_scripts\\data"
+              data_upload_path = os.path.dirname(os.path.realpath(__file__)) + "/market_scripts/data"
               if not os.path.exists(data_upload_path):
                 os.makedirs(data_upload_path)
               try:

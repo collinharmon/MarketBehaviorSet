@@ -49,7 +49,11 @@ class MarketApi:
     super().__init__()
     self.set_env_vars()
     self.alpaca_api = alpaca_api.REST()
-    self.market_db = self.MarketDatabaseHelper()
+    try:
+      self.market_db = self.MarketDatabaseHelper()
+    except Exception as e:
+      self.market_db = None
+      print("Failed to connect to the MySQL Database. Index and Portfolio features not available.")
     self.mutex = threading.Lock()
 
 
@@ -72,6 +76,8 @@ class MarketApi:
     except Exception as e:
       raise Exception("There was an issue parsing the tickers data: %s" % str(e))
     
+    if self.market_db is None:
+      raise Exception("No MySQL connection established. Cannot fulfill request.")
     (user_db_id, exists) = self.market_db.get_user_id(user_id)
 
     rval = self.market_db.insert_portfolio(name, tickers, format, user_db_id)
@@ -555,6 +561,8 @@ class MarketApi:
 
     Description - MarketApi wrapper function which returns a list of strings containing tickers.
     """
+    if self.market_db is None:
+      raise Exception("No MySQL connection established. Cannot fulfill request.")
     try:
       (db_user_id, exists) = self.market_db.get_user_id(discord_user_id)
     except Exception as e:
@@ -574,6 +582,8 @@ class MarketApi:
 
     Description - MarketApi wrapper function which returns a list of strings containing index names.
     """
+    if self.market_db is None:
+      raise Exception("No MySQL connection established. Cannot fulfill request.")
     try:
       (db_user_id, exists) = self.market_db.get_user_id(discord_user_id)
     except Exception as e:
@@ -810,7 +820,6 @@ class MarketApi:
           cursor.execute(MYSQL_ADD_STOCK, (ticker, str(portfolio_id),))
         except Exception as e:
           print(str(e))
-          print("Hello we are right here")
           cursor.close()
           return -1
         else:
@@ -848,7 +857,8 @@ def plot_stock(return_dict, x, y, plot_name, positive, save_path):
   fig.suptitle("%s" % plot_name, fontsize=20, color="green")
   plt.xticks(rotation=50)
   plt.tight_layout()
-  file_path = save_path.replace("\\", "\\\\") + "\\\\%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) 
+  #file_path = save_path.replace("\\", "\\\\") + "\\\\%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) 
+  file_path = save_path.replace("\\", "/") + "/%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) 
   plt.savefig(file_path)
   return_dict[plot_name] = file_path 
   return
