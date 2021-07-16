@@ -251,7 +251,7 @@ class MarketApi:
       if ticker not in barsets or len(barsets[ticker]) < 2:
         continue
       barset = barsets[ticker]
-      tick_open = barset[0].o
+      tick_open = barset[0].c
       tick_close = barset[-1].c
       tickers_return_dict[ticker] = (tick_close - tick_open) / tick_open * 100
 
@@ -445,13 +445,13 @@ class MarketApi:
       barset = barsets[ticker]
       return_plots = []
       return_plots.append(1) #initialize base
-      earliest_open = barset[0].o
+      earliest_close = barset[0].c
       for x in range(1, len(barset)):
         """
         For each bar derive a return from its closing value and the earliest open.
         """
         #print("Price: %3f And Time:%s" % (barset[x].c, barset[x].t))
-        return_plots.append((barset[x].c - earliest_open) / earliest_open * 100)
+        return_plots.append((barset[x].c - earliest_close) / earliest_close * 100)
       tickers_return_plots.append(return_plots)
 
     intervals_processed = 0

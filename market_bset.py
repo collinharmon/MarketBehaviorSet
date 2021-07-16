@@ -248,7 +248,8 @@ class MarketBehaviorSet(BehaviorSet):
             json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", str(ve))
           else:
             if tickers:
-              data_upload_path = os.path.join(os.path.dirname(os.path.realpath(__file__), "/market_scripts/data"))
+              data_upload_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "market_scripts")
+              data_upload_path = os.path.join(data_upload_path, "data")
               if not os.path.exists(data_upload_path):
                 os.makedirs(data_upload_path)
               try:
@@ -974,10 +975,10 @@ class MarketBehaviorSet(BehaviorSet):
         json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", "No valid market commands were entered. SE script, `%s`, will not be created." % se_script_name )
         del self.open_se_scripts[user_id]
         return json_obj
-      if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__), '\\se_scripts'))):
-        os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__), 'se_scripts')))
-      base_path = os.path.dirname(os.path.join(os.path.realpath(__file__), "se_scripts"))
-      full_path = os.path.join(base_path, se_script_name.replace(" ","_"))
+      se_scripts_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'se_scripts')
+      if not os.path.exists(se_scripts_path):
+        os.makedirs(se_scripts_path)
+      full_path = os.path.join(se_scripts_path, se_script_name.replace(" ","_"))
       full_path = full_path + ".se"
 
       overwrite = "wrote"
@@ -1003,7 +1004,7 @@ class MarketBehaviorSet(BehaviorSet):
     Description - Get .se file data from the URL request then sanitize and write the .se file data to a new file to /behavior_sets/se_scripts.
                   If successful map (self.uploaded_mods) .se file name to the path it was written to.
     """
-    base_path = os.path.dirname(os.path.join(os.path.realpath(__file__), "//se_scripts"))
+    base_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "se_scripts")
     if not os.path.exists(base_path):
       os.makedirs(base_path)
     file_name = path_leaf(se_url)
@@ -1049,12 +1050,14 @@ class MarketBehaviorSet(BehaviorSet):
                   'self.is_class_market_script'. If exactly one of the modules uploaded contains an implementation of a MarketScript
                   then 'is_class_market_script' will return the class object (not an instantiation of the MarketScript class object).   
     """
-    base_path = os.path.dirname(os.path.join(os.path.realpath(__file__), "//market_scripts"))
+    base_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "market_scripts")
     if not os.path.exists(base_path):
       os.makedirs(base_path)
     valid_py_uploads = {}
     for py_file in python_file_uploads:
+      print("before path leaf: %s" % py_file)
       file_name = path_leaf(py_file)
+      print("after path leaf: %s" % file_name)
       try:
         r = requests.get(url=py_file)
       except Exception as e:
