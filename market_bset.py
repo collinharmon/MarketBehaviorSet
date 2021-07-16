@@ -918,11 +918,11 @@ class MarketBehaviorSet(BehaviorSet):
         ticker_entries.insert(0,"ticker")
         market_scripts_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "market_scripts")
         if not os.path.exists(market_scripts_path):
-          os.makedirs(os.path.dirname(market_scripts_path))
+          os.makedirs(market_scripts_path)
 
         uploads_path = os.path.join(market_scripts_path, "uploads")
         if not os.path.exists(uploads_path):
-          os.makedirs(os.path.dirname(uploads_path))
+          os.makedirs(uploads_path)
         
         full_path = os.path.join(uploads_path, index_name.replace(" ","_"))
         full_path = full_path + ".csv"
