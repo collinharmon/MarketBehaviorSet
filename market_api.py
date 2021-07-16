@@ -858,7 +858,7 @@ def plot_stock(return_dict, x, y, plot_name, positive, save_path):
   plt.xticks(rotation=50)
   plt.tight_layout()
   #file_path = save_path.replace("\\", "\\\\") + "\\\\%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) 
-  file_path = save_path.replace("\\", "/") + "/%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) 
+  file_path = os.path.join(save_path, "%s__%s.png" % (plot_name.replace(" ", "_"), str(datetime.datetime.now()).replace(" ", "_").replace(":","_").replace(".","_")) )
   plt.savefig(file_path)
   return_dict[plot_name] = file_path 
   return
