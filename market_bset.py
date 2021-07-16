@@ -916,13 +916,12 @@ class MarketBehaviorSet(BehaviorSet):
         return json_obj
       else:
         ticker_entries.insert(0,"ticker")
-        market_scripts_path = os.path.join(os.path.realpath(__file__), "market_scripts")
-        print("wtf is this shit %s" % market_scripts_path)
-        if not os.path.exists(os.path.dirname(market_scripts_path)):
+        market_scripts_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "market_scripts")
+        if not os.path.exists(market_scripts_path):
           os.makedirs(os.path.dirname(market_scripts_path))
 
         uploads_path = os.path.join(market_scripts_path, "uploads")
-        if not os.path.exists(os.path.dirname(uploads_path)):
+        if not os.path.exists(uploads_path):
           os.makedirs(os.path.dirname(uploads_path))
         
         full_path = os.path.join(uploads_path, index_name.replace(" ","_"))
