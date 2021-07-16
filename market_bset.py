@@ -917,6 +917,7 @@ class MarketBehaviorSet(BehaviorSet):
       else:
         ticker_entries.insert(0,"ticker")
         market_scripts_path = os.path.join(os.path.realpath(__file__), "market_scripts")
+        print("wtf is this shit %s" % market_scripts_path)
         if not os.path.exists(os.path.dirname(market_scripts_path)):
           os.makedirs(os.path.dirname(market_scripts_path))
 
