@@ -98,9 +98,9 @@ class MarketBehaviorSet(BehaviorSet):
           if data_type == "text_message":
             json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", json_data['data'])
           elif data_type == "upload":
-            json_obj = '{"channel":%d, "data_type":"%s", "file_path":"%s"}' % (channel_id, "upload", json_data['file_path'].replace('\\', '\\\\'))
+            json_obj = '{"channel":%d, "data_type":"%s", "file_path":"%s"}' % (channel_id, "upload", json_data['file_path'])
           elif data_type == "text/upload":
-            json_obj = '{"channel":%d, "data_type":"%s", "file_path":"%s", "data":"%s"}' % (channel_id, "text/upload", json_data['file_path'].replace('\\', '\\\\'), json_data['data'])
+            json_obj = '{"channel":%d, "data_type":"%s", "file_path":"%s", "data":"%s"}' % (channel_id, "text/upload", json_data['file_path'], json_data['data'])
           else:
             json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", "Invalid JSON format for provided script. See README.")
 
@@ -916,13 +916,13 @@ class MarketBehaviorSet(BehaviorSet):
         return json_obj
       else:
         ticker_entries.insert(0,"ticker")
-        if not os.path.exists(os.path.dirname(os.path.realpath(__file__)) + '\\market_scripts'):
-          os.makedirs(os.path.dirname(os.path.realpath(__file__)) + '\\market_scripts')
-        if not os.path.exists(os.path.dirname(os.path.realpath(__file__)) + '\\market_scripts\\uploads'):
-          os.makedirs(os.path.dirname(os.path.realpath(__file__)) + '\\market_scripts\\uploads')
+        if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__)), '\\market_scripts')):
+          os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__)), '\\market_scripts'))
+        if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__)), '\\market_scripts\\uploads')):
+          os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__)), '\\market_scripts\\uploads'))
         
-        base_path = os.path.dirname(os.path.realpath(__file__)) + "\\market_scripts\\uploads"
-        full_path = base_path + "\\" + index_name.replace(" ","_")
+        base_path = os.path.dirname(os.path.join(os.path.realpath(__file__)), "\\market_scripts\\uploads")
+        full_path = os.path.join(base_path, index_name.replace(" ","_"))
         full_path = full_path + ".csv"
         file = open(full_path, "w")
         file.write('\n'.join(ticker_entries))
@@ -930,7 +930,6 @@ class MarketBehaviorSet(BehaviorSet):
 
         rval = self.market_api.create_portfolio(user_id, '\n'.join(ticker_entries), index_name)
 
-        full_path = full_path.replace('\\','\\\\')
 
         del self.open_index_files[user_id]
         json_obj = '{"channel":%d, "data_type":"%s", "data":"%s", "file_path":"%s"}' % (channel_id, "text/upload", rval, full_path)
@@ -973,10 +972,10 @@ class MarketBehaviorSet(BehaviorSet):
         json_obj = '{"channel":%d, "data_type":"%s", "data":"%s"}' % (channel_id, "text_message", "No valid market commands were entered. SE script, `%s`, will not be created." % se_script_name )
         del self.open_se_scripts[user_id]
         return json_obj
-      if not os.path.exists(os.path.dirname(os.path.realpath(__file__)) + '\\se_scripts'):
-        os.makedirs(os.path.dirname(os.path.realpath(__file__)) + '\\se_scripts')
-      base_path = os.path.dirname(os.path.realpath(__file__)) + "\\se_scripts"
-      full_path = base_path + "\\" + se_script_name.replace(" ","_")
+      if not os.path.exists(os.path.dirname(os.path.join(os.path.realpath(__file__)), '\\se_scripts')):
+        os.makedirs(os.path.dirname(os.path.join(os.path.realpath(__file__)), 'se_scripts'))
+      base_path = os.path.dirname(os.path.join(os.path.realpath(__file__)), "se_scripts")
+      full_path = os.path.join(base_path, se_script_name.replace(" ","_"))
       full_path = full_path + ".se"
 
       overwrite = "wrote"
@@ -986,7 +985,6 @@ class MarketBehaviorSet(BehaviorSet):
 
       file = open(full_path, "w")
       file.write('\n'.join(market_cmds))
-      full_path = full_path.replace('\\','\\\\')
       del self.open_se_scripts[user_id]
       self.uploaded_mods[se_script_name] = full_path
       success_msg = "Successfully %s and uploaded se script, `%s`, for <@%s>" % (overwrite, se_script_name.replace(' ','_'), user_id)
@@ -1003,7 +1001,7 @@ class MarketBehaviorSet(BehaviorSet):
     Description - Get .se file data from the URL request then sanitize and write the .se file data to a new file to /behavior_sets/se_scripts.
                   If successful map (self.uploaded_mods) .se file name to the path it was written to.
     """
-    base_path = os.path.dirname(os.path.realpath(__file__)) + "//se_scripts"
+    base_path = os.path.dirname(os.path.join(os.path.realpath(__file__)), "//se_scripts")
     if not os.path.exists(base_path):
       os.makedirs(base_path)
     file_name = path_leaf(se_url)
@@ -1013,7 +1011,7 @@ class MarketBehaviorSet(BehaviorSet):
     except requests.exceptions.RequestException as e:
       raise ValueError("Bad URL for .se file uploaded. Contact admin.")
 
-    full_path = base_path + "//" + file_name
+    full_path = os.path.join(base_path, file_name)
     if os.path.exists(full_path):
       os.remove(full_path)
     
@@ -1049,7 +1047,7 @@ class MarketBehaviorSet(BehaviorSet):
                   'self.is_class_market_script'. If exactly one of the modules uploaded contains an implementation of a MarketScript
                   then 'is_class_market_script' will return the class object (not an instantiation of the MarketScript class object).   
     """
-    base_path = os.path.dirname(os.path.realpath(__file__)) + "//market_scripts"
+    base_path = os.path.dirname(os.path.join(os.path.realpath(__file__)), "//market_scripts")
     if not os.path.exists(base_path):
       os.makedirs(base_path)
     valid_py_uploads = {}
@@ -1074,7 +1072,7 @@ class MarketBehaviorSet(BehaviorSet):
       If more than one Python module is uploaded then it is assumed there exists only one MarketScript implementation wherein the remainder are module dependencies
       """
       reload_mod = False
-      full_path = base_path + "//" + k
+      full_path = os.path.join(base_path, k)
       if os.path.exists(full_path):
         os.remove(full_path)
         reload_mod = True
