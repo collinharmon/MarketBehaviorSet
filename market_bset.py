@@ -1124,7 +1124,6 @@ class MarketBehaviorSet(BehaviorSet):
                   Establish mapping between module name and imported mod object. If the imported mod contains a subclass of MarketScript return the class obj in the module.
     """
     if reload_mod and mod_name in self.script_name_to_mod:
-      print("We out here")
       mod = self.script_name_to_mod[mod_name]
       reload(mod)
     else:
