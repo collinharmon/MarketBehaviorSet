@@ -103,9 +103,9 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 
 ![SeScriptRun](img/SeScriptRun.PNG)
 
-![CronJob1](img/Cron.PNG)
+![CronJob1](img/Cron.png)
 
-![CronJob2](img/Cron2.PNG)
+![CronJob2](img/Cron2.png)
 
 ![OrderedUsage1](img/OrderedStocksUsage_1.PNG)
 
