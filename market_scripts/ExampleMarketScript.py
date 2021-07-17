@@ -6,6 +6,7 @@ import json
 from multiprocessing import Process, Manager
 
 class MySecondMarketScript(MarketScript):
+  isBase = False
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
 

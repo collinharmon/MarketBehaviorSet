@@ -1111,6 +1111,7 @@ class MarketBehaviorSet(BehaviorSet):
           market_script_class_name = k[:-3]
       else:
         print("Debug: this is not the module we're interested in: %s" % k)
+        raise ValueError("Was unable to obtain a MarketScript obj from the provided module.")
     
     return (market_script_class_name, market_script)
     
@@ -1123,15 +1124,26 @@ class MarketBehaviorSet(BehaviorSet):
                   Establish mapping between module name and imported mod object. If the imported mod contains a subclass of MarketScript return the class obj in the module.
     """
     if reload_mod and mod_name in self.script_name_to_mod:
+      print("We out here")
       mod = self.script_name_to_mod[mod_name]
       reload(mod)
     else:
       mod = import_module(mod_abs_path)
       self.script_name_to_mod[mod_name] = mod
     for name, obj in inspect.getmembers(mod):
-      if inspect.isclass(obj) and issubclass(obj, MarketScript):
-        if name != "MarketScript":
-          return obj
+      if inspect.isclass(obj):
+        if issubclass(obj, MarketScript):
+          if name != "MarketScript":
+            return obj
+        else:
+          attributes = inspect.getmembers(obj, lambda a:not(inspect.isroutine(a)))
+          isBase = [a for a in attributes if a[0].startswith('isBase')]
+          if len(isBase) == 1:
+            if isBase[0][1] is False:
+              print(isBase[0][1])
+              return obj
+
+
     return None
 
 """
