@@ -87,31 +87,31 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 
 # Pictorial Examples of Market commands
 
-![Help_New_Index](img/Help_New_Index.PNG "`new_index`"
+![Help_New_Index](img/Help_New_Index.PNG)
 
-![Help_New_Index](img/Help_New_Index_2.PNG "`new_index`"
+![Help_New_Index](img/Help_New_Index_2.PNG)
 
-![Help_New_Index](img/Help_New_Index_3_Plot_Index.PNG "`new_index`"
+![Help_New_Index](img/Help_New_Index_3_Plot_Index.PNG)
 
-![GetOrdered](img/GetOrderedStocks.PNG "`get_ordered`"
+![GetOrdered](img/GetOrderedStocks.PNG)
 
-![ScriptUpload](img/CustomPyScriptUpload.PNG "`py upload`"
+![ScriptUpload](img/CustomPyScriptUpload.PNG)
 
-![UploadOverwrite](img/CustomPyScriptUpload_Overwrite.PNG "`py upload`"
+![UploadOverwrite](img/CustomPyScriptUpload_Overwrite.PNG)
 
-![SeScriptWrite](img/SeScriptWrite.PNG "`SeScript`"
+![SeScriptWrite](img/SeScriptWrite.PNG)
 
-![SeScriptRun](img/SeScriptRun.PNG "`SeScript`"
+![SeScriptRun](img/SeScriptRun.PNG)
 
-![CronJob1](img/Cron.PNG "`Cron`"
+![CronJob1](img/Cron.PNG)
 
-![CronJob2](img/Cron2.PNG "`Cron`"
+![CronJob2](img/Cron2.PNG)
 
-![OrderedUsage1](img/OrderedStocksUsage_1.PNG "`OrderedUsage`"
+![OrderedUsage1](img/OrderedStocksUsage_1.PNG)
 
-![OrderedUsage2](img/OrderedStocksUsage_2.PNG "`OrderedUsage`"
+![OrderedUsage2](img/OrderedStocksUsage_2.PNG)
 
-![OrderedUsage3](img/OrderedStocksUsage_3.PNG "`OrderedUsage`"
+![OrderedUsage3](img/OrderedStocksUsage_3.PNG)
 
 
 ## Built With
