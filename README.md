@@ -85,7 +85,33 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 	* Arguments:   
 		*	`script_name`: String representing the desired name of the new custom .se script to be created.
 
-# Pictorial Examples of admin commands
+# Pictorial Examples of Market commands
+
+![Help_New_Index](img/Help_New_Index.PNG "`new_index`"
+
+![Help_New_Index](img/Help_New_Index_2.PNG "`new_index`"
+
+![Help_New_Index](img/Help_New_Index_3_Plot_Index.PNG "`new_index`"
+
+![GetOrdered](img/GetOrderedStocks.PNG "`get_ordered`"
+
+![ScriptUpload](img/CustomPyScriptUpload.PNG "`py upload`"
+
+![UploadOverwrite](img/CustomPyScriptUpload_Overwrite.PNG "`py upload`"
+
+![SeScriptWrite](img/SeScriptWrite.PNG "`SeScript`"
+
+![SeScriptRun](img/SeScriptRun.PNG "`SeScript`"
+
+![CronJob1](img/Cron.PNG "`Cron`"
+
+![CronJob2](img/Cron2.PNG "`Cron`"
+
+![OrderedUsage1](img/OrderedStocksUsage_1.PNG "`OrderedUsage`"
+
+![OrderedUsage2](img/OrderedStocksUsage_2.PNG "`OrderedUsage`"
+
+![OrderedUsage3](img/OrderedStocksUsage_3.PNG "`OrderedUsage`"
 
 
 ## Built With
