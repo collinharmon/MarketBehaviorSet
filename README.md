@@ -32,7 +32,7 @@ Two .ini files are required for the MarketBehaviorSet and MarketApi to function:
 Market commands begin with `./market` and can be executed by user/channel pairs which are registered on the MarketBehaviorSet (see [DiscordBotRunner Admin Command `./admin register`](https://github.com/collinharmon/DiscordBotRunner#admin-commands)).
 
 * `./market help()`
-  * Description: Displays the function signatures of the available Market functions for usage. When provided the name of a function as an argument display the function's description.
+	* Description: Displays the function signatures of the available Market functions for usage. When provided the name of a function as an argument display the function's description.
 	* Arguments:   
 		*	`<Market function name>`: optional argument, a string representing the name of a Market function to get more data on.
 
