@@ -33,7 +33,7 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 
 * `./market help()`
   * Description: Displays the function signatures of the available Market functions for usage. When provided the name of a function as an argument display the function's description.
-	* Arguments:   
+  * Arguments:   
 		*	`<Market function name>`: optional argument, a string representing the name of a Market function to get more data on.
 
 * `./market new_index(<index_name>)`
@@ -59,7 +59,7 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 		*	`end_time`:                                String representing the end time in the following formats: ISO, YYYY/MM/DD, YYYY\MM\DD, and YYYY-MM-DD.
 		*	`limit`:                                   int defining the limit of the amount of stocks to retrieve.
 
-* `./market get_best_stocks(@discord_user, (@discord_user, <index_name>), (@discord_user, [array_of_index_names]), start_time, end_time, limit=int`
+* `./market get_worst_stocks(@discord_user, (@discord_user, <index_name>), (@discord_user, [array_of_index_names]), start_time, end_time, limit=int`
 	* Description: Same exact as `get_best_stocks()`
 
 * `./market show_scripts(void)`
