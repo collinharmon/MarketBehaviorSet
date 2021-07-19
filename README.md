@@ -33,7 +33,7 @@ Market commands begin with `./market` and can be executed by user/channel pairs 
 
 * `./market help()`
   * Description: Displays the function signatures of the available Market functions for usage. When provided the name of a function as an argument display the function's description.
-  * Arguments:   
+	* Arguments:   
 		*	`<Market function name>`: optional argument, a string representing the name of a Market function to get more data on.
 
 * `./market new_index(<index_name>)`
