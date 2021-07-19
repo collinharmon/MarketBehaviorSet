@@ -24,7 +24,7 @@ Custom scripts are implemented through the `MarketScript` Abstract Class defined
 
 Two .ini files are required for the MarketBehaviorSet and MarketApi to function: alpaca_api_keys.ini and db_keys.ini. MarketBehaviorSet will look in the directory it resides in for the two .ini files.
 `alpaca_api_keys.ini` will contain the base url for querying stock data, and the public and private SSH keys for accessing the endpoint.
-`db_keys.ini` contain the MySQL configuration values for establishing a connection to the custom Database.
+`db_keys.ini` contains the MySQL configuration values for establishing a connection to the custom Database.
 (.ini files are provided, however, the keys have been removed)
 
 ## Market Commands
